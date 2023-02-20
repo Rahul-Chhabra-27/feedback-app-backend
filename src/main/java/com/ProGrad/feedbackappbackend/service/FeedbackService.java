@@ -14,17 +14,16 @@ import java.util.List;
 public class FeedbackService {
     @Autowired
     FeedbackRepositry feedbackORM;
+
     public ResponseEntity<List<Feedback>> getFeedbacks() {
         try {
             List<Feedback> feedbacks = feedbackORM.findAll();
-            if(feedbacks.isEmpty()) {
+            if (feedbacks.isEmpty()) {
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            } else {
+                return new ResponseEntity<>(feedbacks, HttpStatus.ACCEPTED);
             }
-            else {
-                return new ResponseEntity<>(feedbacks,HttpStatus.ACCEPTED);
-            }
-        }
-        catch(Exception expception) {
+        } catch (Exception expception) {
             return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -33,5 +32,4 @@ public class FeedbackService {
         feedbackORM.save(feedback);
         return ResponseEntity.status(HttpStatus.CREATED).body(feedback);
     }
-
 }
